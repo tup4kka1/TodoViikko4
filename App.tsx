@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={{padding: 20}}>TODO list</Text>
+      <Text style={{padding: 30, fontSize: 30}}>TODO list</Text>
       <View style={{flexDirection: "row"}}> <TextInput value={input} onChangeText={setInput} placeholder='Enter task'/> <Button title="Save" onPress={addItem} /> </View>
       
       <SwipeListView style={{padding:20}} data={items} keyExtractor={item => item.id} renderItem={({item}) => (
@@ -39,7 +39,7 @@ export default function App() {
             item.done = !item.done
             setDone(!donem)
           }}>
-            <Text style={{textDecorationLine: item.done ? "line-through" : "none"}}>{item.name}</Text>
+            <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10}}>{item.name}</Text>
           </Pressable>
         </View>
         
