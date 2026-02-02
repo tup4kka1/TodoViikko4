@@ -31,7 +31,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={{padding: 30, fontSize: 30}}>TODO list</Text>
-      <View style={{flexDirection: "row"}}> <TextInput value={input} onChangeText={setInput} placeholder='Enter task'/> <Button title="Save" onPress={addItem} /> </View>
+      <View style={{flexDirection: "row", paddingHorizontal: 20}}> <TextInput style={{flex: 1, padding: 10}} value={input} onChangeText={setInput} placeholder='Enter task'/> <Button title="Save" onPress={addItem} /> </View>
       
       <SwipeListView style={{padding:20}} data={items} keyExtractor={item => item.id} renderItem={({item}) => (
         <View>
@@ -39,7 +39,7 @@ export default function App() {
             item.done = !item.done
             setDone(!donem)
           }}>
-            <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10}}>{item.name}</Text>
+            <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10, textAlign: "left"}}>{item.name}</Text>
           </Pressable>
         </View>
         
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    //alignItems: 'center',
     justifyContent: 'center',
   },
 });
