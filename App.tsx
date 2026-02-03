@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Pressable,  } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,18 +14,41 @@ export default function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [input, setInput] = useState("")
   const [donem, setDone] = useState(false);
-
+  const KEYS = "todoitems";
 
   const addItem = () => {
     if (input.trim()) {
-      setItems(prev => [
-        ...prev,
-        { id: Date.now().toString(), name: input.trim(), done: false},
-      ]);
+      //setItems(prev => [
+       // ...prev,
+        //{ id: Date.now().toString(), name: input.trim(), done: false},
+      //]);
+      const list = [...items, { id: Date.now().toString(), name: input.trim(), done: false}];
+      SAVE(list);
+      setItems(list);
       setInput("")
-      AsyncStorage.setItem("", input);
     }
   }
+
+  const SAVE = async (list: Item[]) => {
+    await AsyncStorage.setItem(KEYS, JSON.stringify(list));
+  };
+
+  useEffect(() => {
+    LOAD();
+  }, []);
+
+  const LOAD = async () => {
+    const data = await AsyncStorage.getItem(KEYS);
+    if (data) {
+      setItems(JSON.parse(data));
+    }
+  };
+
+  const TOGGLE = (id: string) => {
+    const list = items.map(i => i.id === id ? { ...i, done: !i.done } : i);
+    setItems(list);
+    SAVE(list);
+  };
 
 
   return (
@@ -36,8 +59,8 @@ export default function App() {
       <SwipeListView style={{padding:20}} data={items} keyExtractor={item => item.id} renderItem={({item}) => (
         <View>
           <Pressable onPress={() => {
-            item.done = !item.done
-            setDone(!donem)
+            //item.done = !item.done
+            TOGGLE(item.id)
           }}>
             <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10, textAlign: "left"}}>{item.name}</Text>
           </Pressable>
