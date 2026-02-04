@@ -3,17 +3,19 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Pressable,  } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Item } from './types/Item';
+import Row from './components/Row';
 
-interface Item {
-  id: string;
-  name: string;
-  done?: boolean;
-}
+//interface Item {
+//  id: string;
+ // name: string;
+ // done?: boolean;
+//}
 
 export default function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [input, setInput] = useState("")
-  const [donem, setDone] = useState(false);
+  //const [donem, setDone] = useState(false);
   const KEYS = "todoitems";
 
   const addItem = () => {
@@ -55,19 +57,9 @@ export default function App() {
     <View style={styles.container}>
       <Text style={{padding: 30, fontSize: 30}}>TODO list</Text>
       <View style={{flexDirection: "row", paddingHorizontal: 20}}> <TextInput style={{flex: 1, padding: 10}} value={input} onChangeText={setInput} placeholder='Enter task'/> <Button title="Save" onPress={addItem} /> </View>
-      
-      <SwipeListView style={{padding:20}} data={items} keyExtractor={item => item.id} renderItem={({item}) => (
-        <View>
-          <Pressable onPress={() => {
-            //item.done = !item.done
-            TOGGLE(item.id)
-          }}>
-            <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10, textAlign: "left"}}>{item.name}</Text>
-          </Pressable>
-        </View>
-        
-      )}
-      />
+        <SwipeListView style={{padding:20}} data={items} keyExtractor={item => item.id} renderItem={({item}) => (
+          <Row item={item} onToggle={TOGGLE} />
+        )}/>
       <StatusBar style="auto" />
     </View>
   );

@@ -17,3 +17,13 @@ export default function Row({ item, onToggle }: Props) {
     </View>
   )
 }
+
+
+        //<View>
+         // <Pressable onPress={() => {
+            //item.done = !item.done
+         //   TOGGLE(item.id)
+         // }}>
+         //   <Text style={{textDecorationLine: item.done ? "line-through" : "none", padding: 10, textAlign: "left"}}>{item.name}</Text>
+        //  </Pressable>
+       // </View>
